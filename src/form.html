@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <link href="css/style.css" rel="stylesheet">
+  <title>Form-mobile</title>
+</head>
+<body>
+  <header class="header-wrap-form">
+    <nav class="header-wrap__inner">
+      <a class="header-wrap__logo" href="#">Pink</a>
+      <ul class="main-menu">
+        <li><a href="" class="main-menu__link">Информация</a></li>
+        <li><a href="" class="main-menu__link">Блог</a></li>
+        <li><a href="" class="main-menu__link">Отзывы</a></li>
+        <li><a href="" class="main-menu__link">Конкурс</a></li>
+      </ul>
+    </nav>
+    <p class="header-wrap__text">Конкурс на самое<br>
+    безбашеное<br>
+    путешествие с Пинк</p>
+  </header>
+  <p class="discount">Поделитесь своей историей и получите<br>
+  шанс выиграть ценный приз - 1000<br>
+  миль на вашу бонусную карту!</p>
+  <div class="form-wrapeer">
+    <form class="form-wrapper__form" action="post">
+      <div class="form-wrapper form-wrapper_form">
+        <label for="name">Имя:*</label>
+        <input id="name" type="text" placeholder="Введите ваше имя" required>
+        <label for="surname">Фамилия:*</label>
+        <input id="surname" type="text" placeholder="Укажите фамилию" required>
+        <label for="patronymic">Отчество:</label>
+        <input id="patronymic" placeholder="Ну и отчество тоже" type="text">
+      </div>
+      <div class="form-wrapper__form--bg">
+        <p class="form-wrapper__question">С каким приложением<br>
+        путешествовали?*</p>
+        <input id="for-iOS" name="app_name" type="radio" checked>
+        <label class="form-wrapper__question" for="for-iOS">Pink для iOS</label>
+        <input id="for-android" name="app_name" type="radio">
+        <label class="form-wrapper__question" for="for-android">Pink на Android</label>
+        <input id="for-win_phone" name="app_name" type="radio">
+        <label class="form-wrapper__question" for="for-win_phone">Windows Phone</label>
+      </div>
+      <div class="form-wrapper__form">
+        <p class="form-wrapper__question">Когда вы путешествовали?*</p>
+        <input id="date-of-departure" type="text" placeholder="1 апреля 2015" required>
+        <label for="date-of-departure" class="form-wrapper__question">Дата выезда</label>
+        <input type="text" id="duration" placeholder="10 дней">
+        <label for="duration">Продолжительность</label>
+        <input id="return-date" type="text" placeholder="1 апреля 2015" disabled>
+        <label for="return-date">Дата возвращения</label>
+      </div>
+      <div class="form-wrapper__form--bg">
+        <label for="amount">Количество попутчиков*</label>
+        <input id="amount" type="text" placeholder="2 чел" required>
+      </div>
+      <div class="travelers">
+        <div class="traveler">
+          <p class="travelers__numeric"></p>
+          <label for="travelers__name">Имя:*</label>
+          <p class="travelers__number">1</p>
+          <input id="travelers__name" type="text" placeholder="Введите ваше имя" required>
+          <label for="travelers__nick">Прозвище</label>
+          <input id="travelers__nick" type="text" placeholder="Ну как же без этого!">
+        </div>
+        <div class="traveler">
+          <p class="travelers__numeric"></p>
+          <label for="travelers__name">Имя:*</label>
+          <p class="travelers__number">2</p>
+          <input id="travelers__name" type="text" placeholder="Введите ваше имя" required>
+          <label for="travelers__nick">Прозвище</label>
+          <input id="travelers__nick" type="text" placeholder="Ну как же без этого!">
+        </div>
+      </div>
+      <div class="achivements">
+        <p class="achivements achivements_question">Ваши безбашенные<br>
+        достижения в путешествии</p>
+        <input id="shark" type="checkbox" checked>
+        <label for="shark">Сделал селфи с акулой</label>
+        <input id="beach" type="checkbox" checked>
+        <label for="beach">Обгорел на пляже</label>
+        <input id="Chack" type="checkbox">
+        <label for="Chack">Видел Чака Норриса</label>
+        <input id="jewelery" type="checkbox">
+        <label for="jewelery">Накупил сувениров</label>
+        <input id="tower" type="checkbox" checked>
+        <label for="tower">Удержал башню</label>
+        <input id="hotel" type="checkbox">
+        <label for="hotel">Разгромил отель</label>
+      </div>
+      <div class="photos form-wrapper__form--bg">
+        <p class="photos__text">Ваши фотографии из из поездки*</p>
+        <input type="file" placeholder="Загрузить фото">
+        <div class="photos__photo-downloaded"></div>
+        <div class="photos__photo-downloaded"></div>
+        <div class="photos__photo-downloaded"></div>
+        <div class="photos__photo-downloaded"></div>
+        <div class="photos__photo-downloaded"></div>
+        <div class="photos__photo-downloaded"></div>
+        <div class="photos__photo-downloaded"></div>
+        <div class="photos__photo-downloaded"></div>
+      </div>
+      <button class="form-wrapper__submit-button" type="submit">Отправить форму</button>
+      <p class="form-wrapper__form-note"><span>*</span>-Обязательные поля</p>
+    </form>
+    <div class="footer">
+      <a class="footer__link-wrap" href="#"><img class="footer__img" src="" alt="logo-img"></a>
+      <div class="footer__social">
+        <a class="footer__social-link" href=""></a>
+        <a class="footer__social-link" href=""></a>
+        <a class="footer__social-link" href=""></a>
+      </div>
+      <div class="footer__copyright">
+        <p class="footer__copyright-text"></p>
+        <a href="#"><img class="footer__copyright-img" src="" alt="logo-htmlacademy"></a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

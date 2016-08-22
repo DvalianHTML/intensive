@@ -1,90 +1,15 @@
 module.exports = function(grunt) {
-  require('load-grunt-tasks')(grunt);
 
-  var config = {
-    pkg: grunt.file.readJSON('package.json'),}
+  require('load-grunt-tasks')(grunt); // Load all grunt-* packages from package.json
+  require('time-grunt')(grunt);       // Display the elapsed execution time of grunt tasks
 
   grunt.initConfig({
 
-    less: {
-      style: {
+    sass: {
+      dist: {
         files: {
-          'build/css/style.css': 'src/less/style.less'
+          'build/css/style.css': ['src/scss/style.scss']
         }
-      }
-    },
-
-    cmq: {
-      style: {
-        files: {
-          "build/css/style.css": ["build/css/style.css"]
-        }
-      }
-    },
-
-    copy: {
-      build: {
-        files: [{
-          expand: true,
-          cwd: "src",
-          src: [
-            "img/**",
-            // "js/**",
-            "*.html"
-          ],
-          dest: "build"
-        }]
-      },
-      // html: {
-      //   files: [{
-      //     expand: true,
-      //     cwd: "src",
-      //     src: [
-      //       "*.html"
-      //     ],
-      //     dest: "build"
-      //   }]
-      // },
-      // js: {
-      //   files: [{
-      //     expand: true,
-      //     cwd: "src",
-      //     src: [
-      //       "src/js/*.js"
-      //     ],
-      //     dest: "build"
-      //   }]
-      // },
-    },
-
-    cssmin: {
-      options: {
-        keepSpecialComments: 0,
-        report: "gzip"
-      },
-      style: {
-        files: {
-          "build/css/style.min.css": ["build/css/style.css"]
-        }
-      }
-    },
-
-    csscomb: {
-      style:{
-        expand: true,
-        src: ["src/less/**/*.less"]
-      }
-    },
-
-    imagemin: {
-      images: {
-        options: {
-          optimizationLevel: 3
-        },
-        files: [{
-          expand: true,
-          src: ["build/img/**/*.{png,jpg,gif,svg}"]
-        }]
       }
     },
 
@@ -99,22 +24,117 @@ module.exports = function(grunt) {
       }
     },
 
-    clean: {
-      build: ["build"]
+
+    cmq: {
+      style: {
+        files: {
+          'build/css/style.min.css': ['build/css/style.min.css']
+        }
+      }
     },
+
+
+    cssmin: {
+      style: {
+        options: {
+          keepSpecialComments: 0
+        },
+        files: {
+          'build/css/style.min.css': ['build/css/style.min.css']
+        }
+      }
+    },
+
+
+    concat: {
+      start: {
+        src: [
+          // 'src/js/plugin.js',
+          'src/js/script.js'
+        ],
+        dest: 'build/js/script.min.js'
+      }
+    },
+
+
+    uglify: {
+      start: {
+        files: {
+          'build/js/script.min.js': ['build/js/script.min.js']
+        }
+      }
+    },
+
+
+    imagemin: {
+      build: {
+        options: {
+          optimizationLevel: 3
+        },
+        files: [{
+          expand: true,
+          src: ['build/img/*.{png,jpg,gif,svg}']
+        }]
+      }
+    },
+
+
+    clean: {
+      build: [
+        'build/css',
+        'build/img',
+        'build/js',
+        'build/*.html',
+      ]
+    },
+
+
+    copy: {
+      js_vendors: {
+        expand: true,
+        cwd: 'src/js/vendors/',
+        src: ['**'],
+        dest: 'build/js/',
+      },
+      img: {
+        expand: true,
+        cwd: 'src/img/',
+        src: ['*.{png,jpg,gif,svg}'],
+        dest: 'build/img/',
+      },
+      css_min: {
+        src: ['build/css/style.css'],
+        dest: 'build/css/style.min.css',
+      },
+      css_add: {
+        expand: true,
+        cwd: 'src/scss/css/',
+        src: ['*.css'],
+        dest: 'build/css/',
+      }
+      // fonts: {
+      //   expand: true,
+      //   cwd: 'src/font/',
+      //   src: ['*.{eot,svg,woff,ttf}'],
+      //   dest: 'build/font/',
+      // },
+    },
+
+
+    includereplace: {
+      html: {
+        src: '*.html',
+        dest: 'build/',
+        expand: true,
+        cwd: 'src/'
+      }
+    },
+
 
     watch: {
       style: {
-        files: ['src/less/**/*.less'],
-        tasks: ['less', 'postcss'],
-        options: {
-          spawn: false,
-          livereload: true
-        },
-      },
-      images: {
-        files: ['src/img/**/.{png,jpg,gif,svg}'],
-        tasks: ['img'],
+        files: ['src/scss/**/*.scss'],
+        tasks: ['sass', 'postcss'],
         options: {
           spawn: false,
           livereload: true
@@ -128,9 +148,17 @@ module.exports = function(grunt) {
           livereload: true
         },
       },
+      images: {
+        files: ['src/img/**/*.{png,jpg,gif,svg}'],
+        tasks: ['img'],
+        options: {
+          spawn: false,
+          livereload: true
+        },
+      },
       html: {
-        files: ['src/*.html'],
-        tasks: ['copy:html'],
+        files: ['src/*.html', 'src/_html_inc/*.html'],
+        tasks: ['includereplace:html'],
         options: {
           spawn: false,
           livereload: true
@@ -138,55 +166,13 @@ module.exports = function(grunt) {
       },
     },
 
-    htmlmin: {
-      options: {
-        removeComments: true,
-        collapseWhitespace: true,
-        collapseBooleanAttributes: true,
-        caseSensitive: true,
-        keepClosingSlash: false
-      },
-      html: {
-        files: {
-          "build/index.min.html": "build/index.html",
-          "build/form.min.html": "build/form.html",
-          "build/blog.min.html": "build/blog.html",
-          "build/post.min.html": "build/post.html"
-        }
+    csscomb: {
+      style:{
+        expand: true,
+        src: ["src/scss/**/*.scss"]
       }
     },
 
-    concat: {
-      start: {
-        src: [
-          'src/js/toggler.js',
-          'src/js/map.js',
-          'src/js/form.js',
-          'src/js/mustache.min.js'
-          // 'src/js/pagination.js'
-        ],
-        dest: 'build/js/script.js'
-      }
-    },
-
-    autoprefixer: {
-      options: {
-        browsers: ['last 2 versions'],
-        map: true,
-      },
-      style: {
-        src: 'build/css/style.css'
-      }
-    },
-
-
-    uglify: {
-      start: {
-        files: {
-          'build/js/script.min.js': ['build/js/script.js']
-        }
-      }
-    },
 
     browserSync: {
       dev: {
@@ -203,7 +189,7 @@ module.exports = function(grunt) {
           server: {
             baseDir: "build/",
           },
-          startPath: "index.html",
+          startPath: "/index.html",
           ghostMode: {
             clicks: true,
             forms: true,
@@ -211,29 +197,45 @@ module.exports = function(grunt) {
           }
         }
       }
-    }
+    },
 
   });
 
+
   grunt.registerTask('default', [
-    'browserSync',
-    'watch'
+    // 'copy:css_add',           // копируем дополнительные CSS-файлы из src/scss/css/ в build/css/
+    'sass',                   // компилируем стили в          build/css/style.css
+    'postcss',                // обрабатываем автопрефиксером build/css/style.css
+    'copy:css_min',           // создаем                      build/css/style.min.css
+    'cmq',                    // объединяем медиа-правила в   build/css/style.min.css
+    'cssmin',                 // минифицируем                 build/css/style.min.css
+    'concat',                 // объединяем все указанные JS-файлы в build/js/script.min.js
+    'uglify',                 // минифицируем                        build/js/script.min.js
+    'copy:js_vendors',        // копируем всё из src/js/vendors/ в build/js/
+    'copy:img',               // копируем всё из src/img/ в build/img/
+    // 'copy:fonts',             // копируем всё из src/font/ в build/font/
+    // 'imagemin',               // минифицируем картинки в build/img/
+    'includereplace:html',    // собираем HTML-файлы в build/
+    'browserSync',            // запускаем плюшки автообновления
+    'watch',                   // запускаем слежение за изменениями файлов
   ]);
+
 
   grunt.registerTask('build', [
-    'clean',
-    'copy',
-    'less',
-    'autoprefixer',
-    // 'cmq',
-    'postcss',
-    'cssmin',
-    // 'imagemin',
-    'htmlmin',
-    'concat',
-    'uglify'
+    'clean:build',            // удаляем build/
+    'copy:css_add',           // копируем дополнительные CSS-файлы из src/scss/css/ в build/css/
+    'sass',                   // компилируем стили в          build/css/style.css
+    'postcss',                // обрабатываем автопрефиксером build/css/style.css
+    'copy:css_min',           // создаем                      build/css/style.min.css
+    'cmq',                    // объединяем медиа-правила в   build/css/style.min.css
+    'cssmin',                 // минифицируем                 build/css/style.min.css
+    'concat',                 // объединяем все указанные JS-файлы в build/js/script.min.js
+    'uglify',                 // минифицируем                        build/js/script.min.js
+    'copy:js_vendors',        // копируем всё из src/js/vendors/ в build/js/
+    'copy:img',               // копируем всё из src/img/ в build/img/
+    // 'copy:fonts',             // копируем всё из src/font/ в build/font/
+    'imagemin',               // минифицируем картинки в build/img/
+    'includereplace:html',    // собираем HTML-файлы в build/
   ]);
 
-  config = require('./.gosha')(grunt, config);
-
-};
+}
